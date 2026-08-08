@@ -1,0 +1,46 @@
+# Dependencies
+node_modules/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Build outputs
+dist/
+.next/
+out/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Coverage
+coverage/
+
+# Temporary files
+tmp/
+uploads/
+
+# Prisma generated client (regenerated from schema)
+backend/src/generated/
+
+# Misc
+.turbo/
+*.tsbuildinfo
+
+# AI agent files
+.claude/
+.windsurf/
+.agents/
+skills-lock.json
