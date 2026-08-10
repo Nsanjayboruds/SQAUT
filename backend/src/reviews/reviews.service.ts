@@ -79,12 +79,23 @@ export class ReviewsService {
     }
 
     // Call AI for review
-    const template = dto.template as 'SECURITY' | 'PERFORMANCE' | 'CODE_QUALITY';
-    const result = await this.aiService.reviewCode(
-      providerConfig,
-      codeContext,
-      template,
-    );
+    let summary = '';
+    let resultJson: any;
+
+    if (dto.template === 'ARCHITECTURE') {
+      const archResult = await this.aiService.analyzeArchitecture(providerConfig, codeContext);
+      summary = 'Project Architecture Analysis completed.';
+      resultJson = archResult;
+    } else if (dto.template === 'DOCUMENTATION') {
+      const docResult = await this.aiService.generateDocumentation(providerConfig, codeContext, 'README');
+      summary = 'Project Documentation (README) generated.';
+      resultJson = { markdown: docResult };
+    } else {
+      const template = dto.template as 'SECURITY' | 'PERFORMANCE' | 'CODE_QUALITY';
+      const reviewResult = await this.aiService.reviewCode(providerConfig, codeContext, template);
+      summary = reviewResult.summary;
+      resultJson = reviewResult;
+    }
 
     // Store the review
     const review = await this.prisma.review.create({
@@ -95,8 +106,8 @@ export class ReviewsService {
         template: dto.template,
         scope: dto.scope,
         fileIds,
-        summary: result.summary,
-        result: JSON.parse(JSON.stringify(result)),
+        summary,
+        result: resultJson,
       },
     });
 

@@ -5,7 +5,7 @@ export class CreateReviewDto {
   projectId: string;
 
   @IsString()
-  @IsIn(['SECURITY', 'PERFORMANCE', 'CODE_QUALITY'])
+  @IsIn(['SECURITY', 'PERFORMANCE', 'CODE_QUALITY', 'ARCHITECTURE', 'DOCUMENTATION'])
   template: string;
 
   @IsString()
